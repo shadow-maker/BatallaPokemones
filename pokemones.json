@@ -1,0 +1,9 @@
+{
+	"ejemPokemon": {
+		"tipo": "flying",
+		"vida": 9,
+		"velocidad": 13,
+		"defensa_fis": 7,
+		"defensa_esp": 4
+	}
+}
