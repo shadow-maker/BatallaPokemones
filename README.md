@@ -1,6 +1,6 @@
 #  Batalla Pokemon
 
-**Por:** Carlos Andrés Montoro
+**Por:** Carlos Andrés Montoro - 
          Eduardo Arróspide González
 
 ## Dependencias
