@@ -1,0 +1,100 @@
+{
+  "Machamp": {
+    "vida": 180,
+    "velocidad": 55,
+    "defensaF": 40,
+    "defensaE": 43,
+    "tipo": 0
+  },
+  "Primeape": {
+    "vida": 130,
+    "velocidad": 95,
+    "defensaF": 30,
+    "defensaE": 35,
+    "tipo": 0
+  },
+  "Fearow": {
+    "vida": 130,
+    "velocidad": 100,
+    "defensaF": 33,
+    "defensaE": 31,
+    "tipo": 1
+  },
+  "Aerodactyl": {
+    "vida": 160,
+    "velocidad": 130,
+    "defensaF": 33,
+    "defensaE": 38,
+    "tipo": 1
+  },
+  "Rhydon": {
+    "vida": 210,
+    "velocidad": 40,
+    "defensaF": 60,
+    "defensaE": 22,
+    "tipo": 2
+  },
+  "Dugtrio": {
+    "vida": 70,
+    "velocidad": 120,
+    "defensaF": 25,
+    "defensaE": 35,
+    "tipo": 2
+  },
+  "Onix": {
+    "vida": 70,
+    "velocidad": 70,
+    "defensaF": 80,
+    "defensaE": 23,
+    "tipo": 3
+  },
+  "Golem": {
+    "vida": 160,
+    "velocidad": 45,
+    "defensaF": 65,
+    "defensaE": 33,
+    "tipo": 3
+  },
+  "Arcanine": {
+    "vida": 180,
+    "velocidad": 95,
+    "defensaF": 40,
+    "defensaE": 40,
+    "tipo": 4
+  },
+  "Rapidash": {
+    "vida": 130,
+    "velocidad": 105,
+    "defensaF": 35,
+    "defensaE": 40,
+    "tipo": 4
+  },
+  "Blastoise": {
+    "vida": 158,
+    "velocidad": 78,
+    "defensaF": 50,
+    "defensaE": 53,
+    "tipo": 5
+  },
+  "Vaporeon": {
+    "vida": 260,
+    "velocidad": 65,
+    "defensaF": 30,
+    "defensaE": 48,
+    "tipo": 5
+  },
+  "Electrode": {
+    "vida": 120,
+    "velocidad": 150,
+    "defensaF": 35,
+    "defensaE": 40,
+    "tipo": 6
+  },
+  "Raichu": {
+    "vida": 120,
+    "velocidad": 100,
+    "defensaF": 28,
+    "defensaE": 40,
+    "tipo": 6
+  }
+}
