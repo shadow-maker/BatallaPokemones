@@ -1,0 +1,83 @@
+{
+	"Take Down": {
+		"ataque": 1,
+		"pp": 10,
+		"danio": 90,
+		"fis": 1
+	},
+	"Tri Attack": {
+		"ataque": 1,
+		"pp": 10,
+		"danio": 80,
+		"fis": 0
+	},
+	"Quick Attack": {
+		"ataque": 1,
+		"pp": 15,
+		"danio": 50,
+		"fis": 1
+	},
+	"Defense Curl": {
+		"ataque": 0,
+		"pp": 10,
+		"mejoraAtaque": 2,
+		"mejoraDefensaF": 0,
+		"mejoraDefensaE": 9,
+		"mejoraVelocidad": 0,
+		"curaVida": 0
+	},
+	"Focus Energy": {
+		"ataque": 0,
+		"pp": 5,
+		"mejoraAtaque": 3,
+		"mejoraDefensaF": 0,
+		"mejoraDefensaE": 0,
+		"mejoraVelocidad": 0,
+		"curaVida": 0
+	},
+	"Harden": {
+		"ataque": 0,
+		"pp": 10,
+		"mejoraAtaque": 2,
+		"mejoraDefensaF": 9,
+		"mejoraDefensaE": 0,
+		"mejoraVelocidad": 0,
+		"curaVida": 0
+	},
+	"Belly Drum": {
+		"ataque": 0,
+		"pp": 10,
+		"mejoraAtaque": 4,
+		"mejoraDefensaF": 0,
+		"mejoraDefensaE": 0,
+		"mejoraVelocidad": 0,
+		"curaVida": -40
+	},
+	"Heal Bell": {
+		"ataque": 0,
+		"pp": 10,
+		"mejoraAtaque": 2,
+		"mejoraDefensaF": 0,
+		"mejoraDefensaE": 0,
+		"mejoraVelocidad": 0,
+		"curaVida": 30
+	},
+	"Stockpile": {
+		"ataque": 0,
+		"pp": 3,
+		"mejoraAtaque": 2,
+		"mejoraDefensaF": 5,
+		"mejoraDefensaE": 5,
+		"mejoraVelocidad": 0,
+		"curaVida": 0
+	},
+	"Get the blood flowing": {
+		"ataque": 0,
+		"pp": 5,
+		"mejoraAtaque": 2,
+		"mejoraDefensaF": 0,
+		"mejoraDefensaE": 0,
+		"mejoraVelocidad": 10,
+		"curaVida": 0
+	}
+}

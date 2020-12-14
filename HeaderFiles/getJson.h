@@ -12,8 +12,8 @@ using json = nlohmann::json;
 
 int getMatrixValue(int iDefend, int iAtack);
 
-vector<string> getPokemones();
-
-//Pokemon crearPokemon(string nombre);
+vector<string> getDictKeys(string relPath);
 
 vector<int> getDatosPokemon(string nombre);
+
+vector<int> getDatosMovimiento(string nombre);

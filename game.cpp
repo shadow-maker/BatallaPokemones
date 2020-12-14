@@ -114,7 +114,7 @@ void Game::setHeaderText(string contents, Color color) {
 }
 
 void Game::setSubHeaderText(string contents, Color color) {
-	Text headerText(contents, font, 32);
+	Text headerText(contents, font, 30);
 	headerText.setPosition(40, 70);
 	headerText.setFillColor(color);
 	texts.push_back(headerText);

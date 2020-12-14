@@ -2,7 +2,7 @@
 
 int getMatrixValue(int iDefend, int iAtack) {
 	string line;
-	ifstream file("JSON/interacciones.json");
+	ifstream file(resourcePath() + "interacciones.json");
 
 	int countY = -1;
 	int countX = -1;
@@ -23,8 +23,8 @@ int getMatrixValue(int iDefend, int iAtack) {
 	return 0;
 }
 
-vector<string> getPokemones() {
-	ifstream file(resourcePath() + "pokemones.json");
+vector<string> getDictKeys(string relPath) {
+	ifstream file(resourcePath() + relPath);
 	json j = json::parse(file);
 	
 	vector<string> pokemones;
@@ -35,14 +35,6 @@ vector<string> getPokemones() {
 	
 	return pokemones;
 }
-
-/*
-Pokemon crearPokemon(string nombre) {
-	ifstream file(resourcePath() + "pokemones.json");
-	json j = json::parse(file);
-	
-	return Pokemon(nombre, j[nombre]["vidaOrig"], j[nombre]["velocidad"], j[nombre]["defensa_fis"], j[nombre]["defensa_esp"], static_cast<Tipo>(j[nombre]["tipo"]));
-}*/
 
 vector<int> getDatosPokemon(string nombre) {
 	ifstream file(resourcePath() + "pokemones.json");
@@ -56,5 +48,38 @@ vector<int> getDatosPokemon(string nombre) {
 		int(j[nombre]["tipo"])
 	};
 	
+	return datos;
+}
+
+vector<int> getDatosMovimiento(string nombre) {
+	ifstream file(resourcePath() + "movimientos.json");
+	json j = json::parse(file);
+	
+	vector<int> datos;
+	
+	switch (int(j[nombre]["ataque"])) {
+		case 0:
+			datos = {
+				int(j[nombre]["ataque"]),
+				int(j[nombre]["pp"]),
+				int(j[nombre]["mejoraAtaque"]),
+				int(j[nombre]["mejoraDefensaF"]),
+				int(j[nombre]["mejoraDefensaE"]),
+				int(j[nombre]["mejoraVelocidad"]),
+				int(j[nombre]["curaVida"])
+			};
+			break;
+		case 1:
+			datos = {
+				int(j[nombre]["ataque"]),
+				int(j[nombre]["pp"]),
+				int(j[nombre]["danio"]),
+				int(j[nombre]["fis"])
+			};
+			break;
+		default:
+			break;
+	}
+
 	return datos;
 }

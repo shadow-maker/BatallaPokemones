@@ -17,10 +17,11 @@ class Movimiento {
 	public:
 	Movimiento(string nombre, int pp);
 
-	//template <typename T> void movAtaque(T &jugador);
-	//template <typename T> void movStatus(T &jugador);
+	template <typename T> void movAtaque(T &jugador);
+	template <typename T> void movStatus(T &jugador);
 
 	string get_nombre();
+	string get_clase();
 };
 
 // Clase de movimientos de ataque
@@ -35,7 +36,6 @@ class Ataque : public Movimiento {
 	template <typename T> void movAtaque(T &jugador);
 
 	void masBonus(double cant);
-	string get_clase();
 	int get_danio();
 	Tipo get_tipo();
 	string get_f_orE();
@@ -53,7 +53,6 @@ class Status : public Movimiento {
 	Status(string nombre, int pp, double mejoraAtaque, int mejoraDefensaF, int mejoraDefensaE, int mejoraVelocidad, int curaVida);
 	
 	template <typename T> void movStatus(T &jugador);
-	string get_clase();
 	int get_mejoraAtaque();
 	int get_mejoraDefensaF();
 	int get_mejoraDefensaE();
