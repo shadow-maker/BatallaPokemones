@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Clase padre de Pokemones
+// Clase de Pokemones
 class Pokemon {
 	protected:
 	string nombre;
@@ -36,6 +36,8 @@ class Pokemon {
 	int get_defensaE ();
 
 	Tipo get_tipo();
+	
+	double get_bonus();
 
 	void quitarVida(int cant);
 

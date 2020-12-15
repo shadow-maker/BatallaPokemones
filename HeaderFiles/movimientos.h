@@ -17,11 +17,20 @@ class Movimiento {
 	public:
 	Movimiento(string nombre, int pp);
 
-	template <typename T> void movAtaque(T &jugador);
-	template <typename T> void movStatus(T &jugador);
+	//template <typename T> void movAtaque(T &jugador);
+	//template <typename T> void movStatus(T &jugador);
 
 	string get_nombre();
 	string get_clase();
+	
+	virtual int get_danio();
+	virtual Tipo get_tipo();
+	virtual string get_f_orE();
+	virtual int get_mejoraAtaque ();
+	virtual int get_mejoraDefensaF ();
+	virtual int get_mejoraDefensaE ();
+	virtual int get_mejoraVelocidad ();
+	virtual int get_curaVida ();
 };
 
 // Clase de movimientos de ataque

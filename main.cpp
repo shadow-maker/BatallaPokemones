@@ -1,3 +1,9 @@
+//
+//	Por:
+//		- Eduardo Arrospide Gonzales
+//		- Carlos Andrés Montoro Torres
+//
+
 #include <iostream>
 #include <string>
 #include "HeaderFiles/game.h"
@@ -32,66 +38,42 @@ int getIndexByKey(Keyboard::Key key) {
 	}
 }
 
-void movimiento(Pokemon &jugador, Pokemon &jugador2, int &opcion) {
+void movAtaque(Pokemon &jugador, Movimiento ataque) {
+	double multiplicador = getMatrixValue(jugador.get_tipo(), ataque.get_tipo())/2.0;
+  if (ataque.get_f_orE() == "Fis") {
+	jugador.quitarVida(ataque.get_danio()*multiplicador*jugador.get_bonus() - jugador.get_defensaF());
+
+  } else if (ataque.get_f_orE() == "Esp") {
+	jugador.quitarVida(ataque.get_danio()*multiplicador*jugador.get_bonus() - jugador.get_defensaE());
+  }
+  jugador.restartBonus();
+  if (multiplicador == 2) {
+	  cout << "Fue super efectivo!" << endl;
+	}
+  else if (multiplicador == 0.5) {
+	  cout << "No fue tan efectivo..." << endl;
+	} }
+
+void movStatus(Pokemon &jugador, Movimiento status) {
+	jugador.aumentarVida(status.get_curaVida());
+	jugador.aumentarVelocidad(status.get_mejoraVelocidad());
+	jugador.aumentarDefensaF(status.get_mejoraDefensaF());
+	jugador.aumentarDefensaE(status.get_mejoraDefensaE());
+	jugador.masBonus(status.get_mejoraAtaque());
+  }
+
+
+void movimiento(Pokemon &jugador, Pokemon &jugador2, int opcion) {
   if (jugador.movimientos[opcion-1].get_clase() == "ataque") {
 	  cout << "El " << jugador.get_nombre() << " utilizó " << jugador.movimientos[opcion-1].get_nombre() << "!" << endl;
-	  jugador.movimientos[opcion-1].movAtaque<Pokemon> (jugador2);
+	  movAtaque(jugador2, jugador.movimientos[opcion-1]);
   } else if (jugador.movimientos[opcion-1].get_clase() == "status") {
 	  cout << "El " << jugador.get_nombre() << " utilizó " << jugador.movimientos[opcion-1].get_nombre() << "!" << endl;
-	  jugador.movimientos[opcion-1].movStatus<Pokemon> (jugador);
+	  movStatus(jugador, jugador.movimientos[opcion-1]);
 	}
 }
 
-void ronda(Pokemon &jugador1, Pokemon &jugador2) {
-  int opcion1, opcion2;
-  cout << "Jugador 1, elija su movimiento!" << endl;
-  for (int i=0;i<4;i++) {
-	  cout << i+1 << ": " << jugador1.movimientos[i].get_nombre() << endl;
-  }
-  while (true) {
-	  cin >> opcion1;
-	  if (opcion1 >= 1 && opcion1 <= 4) {
-		break;
-	  } else {
-		  cout << "Ingrese opción válida" << endl;
-		  
-	  }
-  }
-  cout << "Jugador 2, elija su movimiento!" << endl;
-  for (int i=0;i<4;i++) {
-	  cout << i+1 << ": " << jugador2.movimientos[i].get_nombre() << endl;
-  }
-  while (true) {
-	  cin >> opcion2;
-	  if (opcion2 >= 1 && opcion2 <= 4) {
-		break;
-	  } else {
-		  cout << "Ingrese opción válida" << endl;
-		  
-	  }
-  }
-  if (jugador1.movimientos[opcion1-1].get_nombre() == "Quick Attack") {
-	movimiento(jugador1, jugador2, opcion1);
-  }
 
-  if (jugador2.movimientos[opcion2-1].get_nombre() == "Quick Attack") {
-	movimiento(jugador2, jugador1, opcion2);
-  }
-
-  if (jugador1.get_velocidad() > jugador2.get_velocidad()) {
-	  movimiento(jugador1, jugador2, opcion1);
-  } else if (jugador1.get_velocidad() < jugador2.get_velocidad()) {
-	  movimiento(jugador2, jugador1, opcion2);
-  } else {
-		srand(time(NULL));
-		int opcionR = rand() % 2;
-		if (opcionR == 0) {
-		  movimiento(jugador1, jugador2, opcion1);
-		} else {
-		  movimiento(jugador2, jugador1, opcion2);
-		}
-	}
-} 
 
 int main() {
 	
@@ -102,13 +84,16 @@ int main() {
 	
 	gameStage stage;
 	stage = gameStage::splashscreen;
+	
+	int subStage = 0;
 
 	game.setIcon("icon.png");
 	game.loadFont("RetroGaming.ttf");
-	game.playMusic("opening.ogg", 50);
+	game.playMusic("opening.ogg", 30);
 	
 	bool stageInit = false;
 	string selec;
+	string prevSelec;
 	
 	// Game loop
 	while (game.running()) {
@@ -244,9 +229,10 @@ int main() {
 				if (getIndexByKey(game.currentKey) < movimientos.size() && game.currentKey >= 0 && game.currentKey != Keyboard::Key::Space) {
 					
 					selec = movimientos[getIndexByKey(game.currentKey)];
+					cout<<getIndexByKey(game.currentKey)<<endl;
 					
 					game.texts.pop_back();
-					Text selected("SELECCIONADO: " + movimientos[getIndexByKey(game.currentKey)], game.font, 18);
+					Text selected("SELECCIONADO: " + selec, game.font, 18);
 					selected.setPosition(350, 450);
 					selected.setFillColor(Color(50, 50, 50));
 					game.texts.push_back(selected);
@@ -266,6 +252,8 @@ int main() {
 						default:
 							break;
 					}
+					
+					prevSelec = selec;
 
 					stageInit = false;
 					stage = gameStage::elegirMovimientos1B;
@@ -277,7 +265,7 @@ int main() {
 				vector<string> movimientos = getDictKeys("movimientos.json");
 				
 				for (int i = 0; i < movimientos.size(); i++) {
-					if (movimientos[i] == selec) {
+					if (movimientos[i] == prevSelec) {
 						movimientos.erase(movimientos.begin() + i);
 						break;
 					}
@@ -306,9 +294,10 @@ int main() {
 				if (getIndexByKey(game.currentKey) < movimientos.size() && game.currentKey >= 0 && game.currentKey != Keyboard::Key::Space) {
 					
 					selec = movimientos[getIndexByKey(game.currentKey)];
+					cout<<getIndexByKey(game.currentKey)<<endl;
 					
 					game.texts.pop_back();
-					Text selected("SELECCIONADO: " + movimientos[getIndexByKey(game.currentKey)], game.font, 18);
+					Text selected("SELECCIONADO: " + selec, game.font, 18);
 					selected.setPosition(350, 450);
 					selected.setFillColor(Color(50, 50, 50));
 					game.texts.push_back(selected);
@@ -363,7 +352,7 @@ int main() {
 					selec = movimientos[getIndexByKey(game.currentKey)];
 					
 					game.texts.pop_back();
-					Text selected("SELECCIONADO: " + movimientos[getIndexByKey(game.currentKey)], game.font, 18);
+					Text selected("SELECCIONADO: " + selec, game.font, 18);
 					selected.setPosition(350, 450);
 					selected.setFillColor(Color(50, 50, 50));
 					game.texts.push_back(selected);
@@ -383,6 +372,8 @@ int main() {
 						default:
 							break;
 					}
+					
+					prevSelec = selec;
 
 					stageInit = false;
 					stage = gameStage::elegirMovimientos2B;
@@ -394,7 +385,7 @@ int main() {
 				vector<string> movimientos = getDictKeys("movimientos.json");
 				
 				for (int i = 0; i < movimientos.size(); i++) {
-					if (movimientos[i] == selec) {
+					if (movimientos[i] == prevSelec) {
 						movimientos.erase(movimientos.begin() + i);
 						break;
 					}
@@ -425,11 +416,12 @@ int main() {
 					selec = movimientos[getIndexByKey(game.currentKey)];
 					
 					game.texts.pop_back();
-					Text selected("SELECCIONADO: " + movimientos[getIndexByKey(game.currentKey)], game.font, 18);
+					Text selected("SELECCIONADO: " + selec, game.font, 18);
 					selected.setPosition(350, 450);
 					selected.setFillColor(Color(50, 50, 50));
 					game.texts.push_back(selected);
 				} else if (game.currentKey == Keyboard::Key::Space) {
+					
 					vector<int> datosSelec = getDatosMovimiento(selec);
 
 					switch (datosSelec[0]) {
@@ -447,10 +439,166 @@ int main() {
 					}
 
 					stageInit = false;
-					stage = gameStage::elegirMovimientos2A;
+					stage = gameStage::iniciaJuego;
 				}
 				
 				break;
+			}
+			case gameStage::iniciaJuego: {
+				// Mientras que los jugadores sigan vivos
+				if (jugadores[0]->get_vidaActual() > 0 && jugadores[1]->get_vidaActual() > 0) {
+					
+					int opcion1, opcion2;
+					vector<string> nombresMovimientos;
+
+					switch (subStage) {
+						case 0: {
+							for (int i = 0; i < (jugadores[0]->movimientos).size() ; i++) {
+								nombresMovimientos.push_back((jugadores[0]->movimientos)[i].get_nombre());
+							}
+							if (!stageInit) {
+								game.clearGraphics();
+								game.setHeaderText("JUGADOR 1:", Color::Red);
+								game.setSubHeaderText("Juega tu primer movimiento!", Color::White);
+								
+								Text vida1("Vida del jugador 1: " + to_string(jugadores[0]->get_vidaActual()), game.font, 18);
+								vida1.setPosition(20, 500);
+								game.texts.push_back(vida1);
+								
+								Text vida2("Vida del jugador 2: " + to_string(jugadores[1]->get_vidaActual()), game.font, 18);
+								vida2.setPosition(20, 540);
+								game.texts.push_back(vida2);
+								
+								selec = nombresMovimientos[0];
+								
+								game.setChooseListText(nombresMovimientos, 20, 120);
+								
+								game.setBottomText("PRESIONA -ESPACIO- PARA COMFIRMAR", Color::Black);
+								
+								Text selected("SELECCIONADO: " + nombresMovimientos[0], game.font, 18);
+								selected.setPosition(350, 450);
+								selected.setFillColor(Color(50, 50, 50));
+								game.texts.push_back(selected);
+							}
+							
+							if (getIndexByKey(game.currentKey) < nombresMovimientos.size() && game.currentKey >= 0 && game.currentKey != Keyboard::Key::Space) {
+								
+								selec = nombresMovimientos[getIndexByKey(game.currentKey)];
+								cout<<selec<<endl;
+								
+								game.texts.pop_back();
+								Text selected("SELECCIONADO: " + selec, game.font, 18);
+								selected.setPosition(350, 450);
+								selected.setFillColor(Color(50, 50, 50));
+								game.texts.push_back(selected);
+							} else if (game.currentKey == Keyboard::Key::Space) {
+								for (int i = 0; i < nombresMovimientos.size(); i++) {
+									if (nombresMovimientos[i] == selec) {
+										opcion1 = i + 1;
+										break;
+									}
+								}
+								
+								stageInit = false;
+								subStage++;
+							}
+							
+							break;
+						}
+						case 1: {
+							for (int i = 0; i < (jugadores[1]->movimientos).size() ; i++) {
+								nombresMovimientos.push_back((jugadores[1]->movimientos)[i].get_nombre());
+							}
+							if (!stageInit) {
+								game.clearGraphics();
+								game.setHeaderText("JUGADOR 2:", Color::Red);
+								game.setSubHeaderText("Juega tu primer movimiento!", Color::White);
+								
+								Text vida1("Vida del jugador 1: " + to_string(jugadores[0]->get_vidaActual()), game.font, 18);
+								vida1.setPosition(20, 500);
+								game.texts.push_back(vida1);
+								
+								Text vida2("Vida del jugador 2: " + to_string(jugadores[1]->get_vidaActual()), game.font, 18);
+								vida2.setPosition(20, 540);
+								game.texts.push_back(vida2);
+								
+								selec = nombresMovimientos[0];
+								
+								game.setChooseListText(nombresMovimientos, 20, 120);
+								
+								game.setBottomText("PRESIONA -ESPACIO- PARA COMFIRMAR", Color::Black);
+								
+								Text selected("SELECCIONADO: " + nombresMovimientos[0], game.font, 18);
+								selected.setPosition(350, 450);
+								selected.setFillColor(Color(50, 50, 50));
+								game.texts.push_back(selected);
+							}
+							
+							if (getIndexByKey(game.currentKey) < nombresMovimientos.size() && game.currentKey >= 0 && game.currentKey != Keyboard::Key::Space) {
+								
+								selec = nombresMovimientos[getIndexByKey(game.currentKey)];
+								cout<<selec<<endl;
+								
+								game.texts.pop_back();
+								Text selected("SELECCIONADO: " + selec, game.font, 18);
+								selected.setPosition(350, 450);
+								selected.setFillColor(Color(50, 50, 50));
+								game.texts.push_back(selected);
+							} else if (game.currentKey == Keyboard::Key::Space) {
+								for (int i = 0; i < nombresMovimientos.size(); i++) {
+									if (nombresMovimientos[i] == selec) {
+										opcion2 = i + 1;
+										break;
+									}
+								}
+								
+								stageInit = false;
+								subStage++;
+							}
+
+							break;
+						}
+						case 2: {
+							game.clearGraphics();
+							if (jugadores[0]->movimientos[opcion1 - 1].get_nombre() == "Quick Attack") {
+							  movimiento(*(jugadores[0]), *(jugadores[1]), opcion1);
+							} else if (jugadores[1]->movimientos[opcion2 - 1].get_nombre() == "Quick Attack") {
+							  movimiento(*(jugadores[1]), *(jugadores[0]), opcion2);
+							} else {
+								if (jugadores[0]->get_velocidad() > jugadores[1]->get_velocidad()) {
+									movimiento(*(jugadores[0]), *(jugadores[1]), opcion1);
+								} else if (jugadores[0]->get_velocidad() < jugadores[1]->get_velocidad()) {
+									movimiento(*(jugadores[1]), *(jugadores[0]), opcion2);
+								} else {
+									  srand(time(NULL));
+									  int opcionR = rand() % 2;
+									  if (opcionR == 0) {
+										movimiento(*(jugadores[0]), *(jugadores[1]), opcion1);
+									  } else {
+										movimiento(*(jugadores[1]), *(jugadores[0]), opcion2);
+									  }
+								  }
+							}
+							subStage = 0;
+							break;
+						}
+					}
+				} else {
+					stageInit = false;
+					stage = gameStage::finJuego;
+				}
+
+				break;
+			}
+			case gameStage::finJuego: {
+				if (!stageInit) {
+					game.clearGraphics();
+					if (jugadores[0]->get_vidaActual() == 0) {
+						game.setHeaderText("JUGADOR 2 HA GANADO", Color::Red);
+					} else {
+						game.setHeaderText("JUGADOR 1 HA GANADO", Color::Red);
+					}
+				}
 			}
 			default: {
 				game.endGame();

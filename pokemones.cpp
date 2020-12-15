@@ -63,6 +63,10 @@ Tipo Pokemon::get_tipo() {
 	return tipo;
 }
 
+double Pokemon::get_bonus() {
+	return bonus;
+}
+
 void Pokemon::quitarVida(int cant) {
 	vidaActual -= cant;
 }

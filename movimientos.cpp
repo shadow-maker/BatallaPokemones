@@ -11,8 +11,18 @@ string Movimiento::get_clase() {
 	return clase;
 }
 
-template <typename T> void Movimiento::movAtaque(T &jugador) {}
-template <typename T> void Movimiento::movStatus(T &jugador) {}
+//template <typename T> void Movimiento::movAtaque(T &jugador) {}
+//template <typename T> void Movimiento::movStatus(T &jugador) {}
+
+
+int Movimiento::get_danio() {};
+Tipo Movimiento::get_tipo() {};
+string Movimiento::get_f_orE() {};
+int Movimiento::get_mejoraAtaque() {};
+int Movimiento::get_mejoraDefensaF() {};
+int Movimiento::get_mejoraDefensaE() {};
+int Movimiento::get_mejoraVelocidad() {};
+int Movimiento::get_curaVida() {};
 
 
 Ataque::Ataque(string nombre, int pp, int danio, Tipo tipo, string f_orE) : Movimiento(nombre, pp), danio(danio), tipo(tipo), f_orE(f_orE) {
